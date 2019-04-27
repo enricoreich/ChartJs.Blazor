@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.BarChart.Dataset
+@using ChartJs.Blazor.ChartJS.BarChart.Dataset
 @using ChartJs.Blazor.ChartJS.Common.Legends
 @using ChartJs.Blazor.ChartJS.LineChart
 @using ChartJs.Blazor.ChartJS.MixedChart
@@ -8,25 +8,23 @@
 <div class="row">
     <button class="btn btn-primary" onclick="@UpdateChart">Update Chart </button>
 </div>
-<ChartJsMixedChart ref="mixedChart" Config="@mixedChartConfig" Width="600" Height="300"/>
+<ChartJsMixedChart ref="mixedChart" Config="@mixedChartConfig" Width="600" Height="300" />
 
-<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300"/>
+<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300" />
 
 @functions {
 
     MixedChartConfig mixedChartConfig { get; set; }
     ChartJsMixedChart mixedChart;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(mixedChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             mixedChartConfig.Data = JsonConvert.DeserializeObject<MixedChartData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(mixedChartConfig.Data));
         }
     }
-                                        
+
     void OnDataStrChange(string dataStr)
     {
         mixedChartConfig.Data = JsonConvert.DeserializeObject<MixedChartData>(dataStr);
@@ -35,20 +33,16 @@
 
     protected override void OnInit()
     {
-        mixedChartConfig = mixedChartConfig ?? new MixedChartConfig
-        {
+        mixedChartConfig = mixedChartConfig ?? new MixedChartConfig {
             CanvasId = "myFirstMixedChart",
-            Options = new MixedChartOptions
-            {
+            Options = new MixedChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
-                Legend = new ChartJS.Common.Legends.Legend
-                {
+                Legend = new ChartJS.Common.Legends.Legend {
                     Position = LegendPosition.LEFT.ToString(),
                     Reverse = true,
-                    Labels = new Labels
-                    {
+                    Labels = new Labels {
                         UsePointStyle = true,
                         BoxWidth = 85,
                         Padding = 55,
@@ -58,9 +52,8 @@
                     }
                 }
             },
-            Data = new MixedChartData
-            {
-                Labels = new List<string> {"Red", "Blue", "Yellow", "Green", "Purple", "Orange"},
+            Data = new MixedChartData {
+                Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" },
                 Datasets = new List<IMixableDataset>
                 {
                     new BarChartDataset
@@ -94,7 +87,7 @@
         };
     }
 
-    public void UpdateChart()
+    void UpdateChart()
     {
         mixedChartConfig.Data.Labels.Add($"P {mixedChartConfig.Data.Labels.Count + 1}");
         mixedChartConfig.Data.Datasets.ForEach(dataset => dataset.Data.Add(DateTime.Now.Second));

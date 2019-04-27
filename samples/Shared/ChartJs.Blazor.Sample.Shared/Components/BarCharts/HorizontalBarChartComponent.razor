@@ -1,11 +1,11 @@
-﻿@using ChartJs.Blazor.ChartJS.BarChart
+@using ChartJs.Blazor.ChartJS.BarChart
 @using ChartJs.Blazor.ChartJS.BarChart.Dataset
+@using ChartJs.Blazor.ChartJS.Common.Legends
 @using Newtonsoft.Json
 
-
-<h2>Simple Bar Chart</h2>
+<h2>Horizontal Bar Chart</h2>
 <div class="row">
-    <button class="btn btn-primary" onclick="@UpdateChart">Update Chart</button>
+    <button class="btn btn-primary" onclick="@UpdateChart">Update Chart </button>
 </div>
 <ChartJsBarChart ref="barChart"
                  Config="@barChartConfig"
@@ -17,17 +17,16 @@
 @functions {
 
     private BarChartConfig barChartConfig { get; set; }
-    private ChartJsBarChart barChart { get; set; }
+    ChartJsBarChart barChart { get; set; }
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(barChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             barChartConfig.Data = JsonConvert.DeserializeObject<BarChartData>(value);
-            Console.WriteLine(JsonConvert.SerializeObject(barChartConfig.Data.Datasets));
+            Console.WriteLine(JsonConvert.SerializeObject(barChartConfig.Data));
         }
     }
+
 
     void OnDataStrChange(string dataStr)
     {
@@ -37,17 +36,17 @@
 
     protected override void OnInit()
     {
-        barChartConfig = barChartConfig ?? new BarChartConfig
-        {
+        barChartConfig = barChartConfig ?? new BarChartConfig {
             CanvasId = "myBarChartCanvas",
-            Options = new BarChartOptions
-            {
+            Options = new BarChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
-                Responsive = true
+                Responsive = true,
+                Legend = new Legend() {
+                    Position = LegendPosition.RIGHT.ToString()
+                },
             },
-            Data = new BarChartData
-            {
+            Data = new BarChartData {
                 Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" },
                 Datasets = new List<BaseBarChartDataset>
             {
@@ -56,7 +55,8 @@
                         Label = "1'st dataset",
                         BackgroundColor = ColorUtil.RandomColorString(),
                         BorderColor = ColorUtil.RandomColorString(),
-                        Data = new List<dynamic> {19, 12, 5, 3, 3, 2}
+                        BorderWidth = 1,
+                        Data = new List<dynamic> {9, 2, 5, 3, 3, 2}
                     },
                     new BarChartDataset
                     {
@@ -70,9 +70,10 @@
         };
     }
 
-    private void UpdateChart()
+    void UpdateChart()
     {
         //Update existing dataset
+
         barChartConfig.Data.Labels.Add($"{DateTime.Now.Second}");
         barChartConfig.Data.Datasets.ForEach(dataset => { dataset.Data.Add(DateTime.Now.Second); });
     }

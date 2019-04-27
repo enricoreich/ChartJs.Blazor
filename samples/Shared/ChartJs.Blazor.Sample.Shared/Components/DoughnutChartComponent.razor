@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common
 @using ChartJs.Blazor.ChartJS.Common.Legends
 @using ChartJs.Blazor.ChartJS.DoughnutChart
 @using Newtonsoft.Json
@@ -7,25 +7,23 @@
 <div class="row">
     <button class="btn btn-primary" onclick="@UpdateChart">Update Chart </button>
 </div>
-<ChartJsDoughnutChart ref="_doughnutChartJs" Config="@doughnutChartConfig" Width="600" Height="300"/>
+<ChartJsDoughnutChart ref="_doughnutChartJs" Config="@doughnutChartConfig" Width="600" Height="300" />
 
-<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300"/>
+<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300" />
 
 @functions{
 
     public DoughnutChartConfig doughnutChartConfig { get; set; }
     ChartJsDoughnutChart _doughnutChartJs;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(doughnutChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             doughnutChartConfig.Data = JsonConvert.DeserializeObject<DoughnutData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(doughnutChartConfig.Data));
         }
     }
-                                    
+
     void OnDataStrChange(string dataStr)
     {
         doughnutChartConfig.Data = JsonConvert.DeserializeObject<DoughnutData>(dataStr);
@@ -34,24 +32,20 @@
 
     protected override void OnInit()
     {
-        doughnutChartConfig = doughnutChartConfig ?? new DoughnutChartConfig
-        {
+        doughnutChartConfig = doughnutChartConfig ?? new DoughnutChartConfig {
             CanvasId = "myFirstDoughnutChart",
-            Options = new DoughnutOptions
-            {
+            Options = new DoughnutOptions {
                 Text = "Sample chart from Blazor",
-                Animation = new DoughnutAnimation
-                {
+                Animation = new DoughnutAnimation {
                     AnimateRotate = true,
                     AnimateScale = true
                 },
                 Display = true,
                 Responsive = true,
-                Legend = new ChartJS.Common.Legends.Legend {Position = LegendPosition.RIGHT.ToString()}
+                Legend = new ChartJS.Common.Legends.Legend { Position = LegendPosition.RIGHT.ToString() }
             },
-            Data = new DoughnutData
-            {
-                Labels = new List<string> {"A", "B", "C", "D"},
+            Data = new DoughnutData {
+                Labels = new List<string> { "A", "B", "C", "D" },
                 Datasets = new List<DoughnutDataset>
                 {
                     new DoughnutDataset
@@ -81,16 +75,15 @@
             ColorUtil.RandomColorString(),
             ColorUtil.RandomColorString()
         };
-        var doughnutDataset = new DoughnutDataset
-        {
+        var doughnutDataset = new DoughnutDataset {
             BackgroundColor = colors,
             Label = "Light Red",
-            Data = new List<int> {rand.Next(10), rand.Next(10), rand.Next(10), rand.Next(10)},
+            Data = new List<int> { rand.Next(10), rand.Next(10), rand.Next(10), rand.Next(10) },
             BorderWidth = 0,
             HoverBackgroundColor = colors,
             HoverBorderColor = colors,
-            HoverBorderWidth = new[] {1, 1, 1, 1},
-            BorderColor = new[] {"#ffffff", "#ffffff", "#ffffff", "#ffffff"},
+            HoverBorderWidth = new[] { 1, 1, 1, 1 },
+            BorderColor = new[] { "#ffffff", "#ffffff", "#ffffff", "#ffffff" },
         };
 
         doughnutChartConfig.Data.Datasets.Add(doughnutDataset);

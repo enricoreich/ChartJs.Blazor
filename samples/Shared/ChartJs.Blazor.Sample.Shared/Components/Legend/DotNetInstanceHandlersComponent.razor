@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.BarChart
+@using ChartJs.Blazor.ChartJS.BarChart
 @using ChartJs.Blazor.ChartJS.BarChart.Dataset
 @using ChartJs.Blazor.ChartJS.Common.Legends
 @using ChartJs.Blazor.ChartJS.Common.Legends.OnClickHandler
@@ -6,6 +6,7 @@
 @using Microsoft.JSInterop
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@inject Sotsera.Blazor.Toaster.IToaster Toaster
 
 <h2>Legend Item - .Net instance click/hover handler</h2>
 <div class="row">
@@ -20,17 +21,12 @@
 
 @functions {
 
-    [Inject]
-    protected Sotsera.Blazor.Toaster.IToaster Toaster { get; set; }
-
     private BarChartConfig barChartConfig { get; set; }
     private ChartJsBarChart barChart { get; set; }
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(barChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             barChartConfig.Data = JsonConvert.DeserializeObject<BarChartData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(barChartConfig.Data));
         }
@@ -45,22 +41,18 @@
     protected override void OnInit()
     {
         var rand = new Random();
-        barChartConfig = barChartConfig ?? new BarChartConfig
-        {
+        barChartConfig = barChartConfig ?? new BarChartConfig {
             CanvasId = "myBarChartCanvas",
-            Options = new BarChartOptions
-            {
+            Options = new BarChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
-                Legend = new Legend
-                {
+                Legend = new Legend {
                     OnClick = new DotNetInstanceClickHandler(InstanceClickHandler),
                     OnHover = new DotNetInstanceHoverHandler(LegendItemInstanceOnHoverHandler)
                 }
             },
-            Data = new BarChartData
-            {
+            Data = new BarChartData {
                 Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" },
                 Datasets = new List<BaseBarChartDataset>
             {
@@ -108,8 +100,7 @@
         Toaster.Info(
             $"'{hoveredItemDatasetName}'",
             "Mouse over item",
-            options =>
-            {
+            options => {
                 options.VisibleStateDuration = 700;
                 options.ShowTransitionDuration = 100;
                 options.HideTransitionDuration = 100;
@@ -127,8 +118,7 @@
         Toaster.Info(
             $"'{clickedDatasetName}'",
             "Dataset clicked",
-            options =>
-            {
+            options => {
                 options.VisibleStateDuration = 700;
                 options.ShowTransitionDuration = 100;
                 options.HideTransitionDuration = 100;

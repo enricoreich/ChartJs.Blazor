@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.BarChart
+@using ChartJs.Blazor.ChartJS.BarChart
 @using ChartJs.Blazor.ChartJS.BarChart.Dataset
 @using Newtonsoft.Json
 
@@ -18,11 +18,9 @@
     private BarChartConfig barChartConfig { get; set; }
     private ChartJsBarChart barChart { get; set; }
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(barChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             barChartConfig.Data = JsonConvert.DeserializeObject<BarChartData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(barChartConfig.Data));
         }
@@ -36,22 +34,18 @@
 
     protected override void OnInit()
     {
-        barChartConfig = barChartConfig ?? new BarChartConfig
-        {
+        barChartConfig = barChartConfig ?? new BarChartConfig {
             CanvasId = "myBarChartCanvas",
-            Options = new BarChartOptions
-            {
+            Options = new BarChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
-                Scales = new BarChartOptionsScales
-                {
+                Scales = new BarChartOptionsScales {
                     xAxes = new[] { new BarChartAxis { Stacked = true } },
                     yAxes = new[] { new BarChartAxis { Stacked = true } }
                 }
             },
-            Data = new BarChartData
-            {
+            Data = new BarChartData {
                 Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" },
                 Datasets = new List<BaseBarChartDataset>
             {
@@ -76,7 +70,7 @@
         };
     }
 
-    private void UpdateChart()
+    void UpdateChart()
     {
         //Update existing dataset
 

@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common
 @using ChartJs.Blazor.ChartJS.PieChart
 @using Newtonsoft.Json
 
@@ -8,23 +8,21 @@
 </div>
 <ChartJsPieChart ref="pieChartJs" Config="@pieChartConfig" Width="600" Height="300" />
 
-<DataDisplayComponent  OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300" />
+<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300" />
 
 @functions{
 
     private PieChartConfig pieChartConfig { get; set; }
     ChartJsPieChart pieChartJs;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(pieChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             pieChartConfig.Data = JsonConvert.DeserializeObject<PieChartData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(pieChartConfig.Data));
         }
     }
-                                            
+
     void OnDataStrChange(string dataStr)
     {
         pieChartConfig.Data = JsonConvert.DeserializeObject<PieChartData>(dataStr);
@@ -33,18 +31,15 @@
 
     protected override void OnInit()
     {
-        pieChartConfig = pieChartConfig ?? new PieChartConfig
-        {
+        pieChartConfig = pieChartConfig ?? new PieChartConfig {
             CanvasId = "myFirstPieChart",
-            Options = new PieChartOptions
-            {
+            Options = new PieChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
                 Animation = new DoughnutAnimation { AnimateRotate = true, AnimateScale = true }
             },
-            Data = new PieChartData
-            {
+            Data = new PieChartData {
                 Labels = new List<string> { "A", "B", "C", "D" },
                 Datasets = new List<PieChartDataset>
             {
@@ -66,8 +61,7 @@
     public void UpdateChart()
     {
         var rand = new Random();
-        pieChartConfig.Data = new PieChartData
-        {
+        pieChartConfig.Data = new PieChartData {
             Labels = new List<string> { "A", "B", "C", "D" },
             Datasets = new List<PieChartDataset>
         {

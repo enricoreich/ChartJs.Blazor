@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common
 @using ChartJs.Blazor.ChartJS.LineChart
 @using Newtonsoft.Json
 
@@ -15,16 +15,14 @@
     public LineChartConfig lineChartConfig { get; set; }
     ChartJsLineChart lineChartJs;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(lineChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             lineChartConfig.Data = JsonConvert.DeserializeObject<LineChartData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(lineChartConfig.Data));
         }
     }
-                            
+
     void OnDataStrChange(string dataStr)
     {
         lineChartConfig.Data = JsonConvert.DeserializeObject<LineChartData>(dataStr);
@@ -33,22 +31,18 @@
 
     protected override void OnInit()
     {
-        lineChartConfig = lineChartConfig ?? new LineChartConfig
-        {
+        lineChartConfig = lineChartConfig ?? new LineChartConfig {
             CanvasId = "myFirstLineChart",
-            Options = new LineChartOptions
-            {
+            Options = new LineChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
                 Title = new OptionsTitle { Display = true, Text = "Fill Line Chart" },
-                Tooltips = new Tooltips
-                {
+                Tooltips = new Tooltips {
                     Mode = Mode.nearest,
                     Intersect = false
                 },
-                Scales = new Scales
-                {
+                Scales = new Scales {
                     xAxes = new List<Axis>
                 {
                     new Axis
@@ -62,7 +56,7 @@
                     yAxes = new List<Axis>
                 {
                     new Axis
-                    {                        
+                    {
                         ScaleLabel = new ScaleLabel
                         {
                             LabelString = "..label"
@@ -70,14 +64,12 @@
                     }
                 }
                 },
-                Hover = new LineChartOptionsHover
-                {
+                Hover = new LineChartOptionsHover {
                     Intersect = true,
                     Mode = Mode.nearest
                 }
             },
-            Data = new LineChartData
-            {
+            Data = new LineChartData {
                 Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" },
                 Datasets = new List<LineChartDataset>
             {
@@ -108,15 +100,14 @@
         };
     }
 
-    public void UpdateChart()
+    void UpdateChart()
     {
         //Update existing dataset
         var rand = new Random();
         lineChartConfig.Data.Labels.Add($"New{DateTime.Now.Second}");
         var newVal = rand.Next(lineChartConfig.Data.Datasets.SelectMany(dataset => dataset.Data).Select(Convert.ToInt32).Max());
         newVal -= 4;
-        lineChartConfig.Data.Datasets.ForEach(dataset =>
-        {
+        lineChartConfig.Data.Datasets.ForEach(dataset => {
             dataset.Data.Add(newVal);
             newVal += rand.Next(4);
         });

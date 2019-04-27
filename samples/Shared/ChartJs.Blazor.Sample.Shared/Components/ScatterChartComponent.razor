@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common
 @using ChartJs.Blazor.ChartJS.Common.Utils
 @using ChartJs.Blazor.ChartJS.ScatterChart
 @using Newtonsoft.Json
@@ -8,9 +8,9 @@
     <button class="btn btn-primary" onclick="@UpdateChart">Update Chart </button>
 </div>
 
-<ChartJsScatterChart ref="scatterChartJs" Config="@scatterChartConfig" Width="600" Height="300"/>
+<ChartJsScatterChart ref="scatterChartJs" Config="@scatterChartConfig" Width="600" Height="300" />
 
-<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300"/>
+<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300" />
 
 @functions{
 
@@ -18,16 +18,14 @@
     ScatterChartConfig scatterChartConfig { get; set; }
     ChartJsScatterChart scatterChartJs;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(scatterChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             scatterChartConfig.Data = JsonConvert.DeserializeObject<ScatterConfigData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(scatterChartConfig.Data));
         }
     }
-                                         
+
     void OnDataStrChange(string dataStr)
     {
         scatterChartConfig.Data = JsonConvert.DeserializeObject<ScatterConfigData>(dataStr);
@@ -42,16 +40,13 @@
         points.Add(PointUtil.NewRandPoint(-10, 10, -10, 10));
         points.Add(PointUtil.NewRandPoint(-10, 10, -10, 10));
 
-        scatterChartConfig = scatterChartConfig ?? new ScatterChartConfig
-        {
+        scatterChartConfig = scatterChartConfig ?? new ScatterChartConfig {
             CanvasId = "myFirstScatterChart",
-            Options = new ScatterConfigOptions
-            {
-                Title = new OptionsTitle {Display = true, Text = "Scatter Chart"},
+            Options = new ScatterConfigOptions {
+                Title = new OptionsTitle { Display = true, Text = "Scatter Chart" },
                 Responsive = true
             },
-            Data = new ScatterConfigData
-            {
+            Data = new ScatterConfigData {
                 Datasets = new List<ScatterConfigDataset>
                 {
                     new ScatterConfigDataset
@@ -75,7 +70,7 @@
                         PointHitRadius = 5,
                         ShowLine = true,
                         Data = new List<Point>
-                        {
+                    {
                             PointUtil.NewRandPoint(-10, 10, -10, 10),
                             PointUtil.NewRandPoint(-10, 10, -10, 10),
                             PointUtil.NewRandPoint(-10, 10, -10, 10),
@@ -92,7 +87,7 @@
                         PointHitRadius = 5,
                         ShowLine = false,
                         Data = new List<Point>
-                        {
+                    {
                             PointUtil.NewRandPoint(-10, 10, -10, 10),
                             PointUtil.NewRandPoint(-10, 10, -10, 10),
                             PointUtil.NewRandPoint(-10, 10, -10, 10),
@@ -106,7 +101,7 @@
 
     public void UpdateChart()
     {
-    //Update existing dataset
+        //Update existing dataset
 
         scatterChartConfig.Data.Datasets.ForEach(dataset => { dataset.Data.Add(PointUtil.NewRandPoint(-10, 10, -10, 10)); });
 

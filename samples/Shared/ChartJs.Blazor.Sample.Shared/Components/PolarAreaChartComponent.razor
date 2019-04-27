@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common
 @using ChartJs.Blazor.ChartJS.Common.Legends
 @using ChartJs.Blazor.ChartJS.PolarAreaChart
 @using Newtonsoft.Json
@@ -7,25 +7,23 @@
 <div class="row">
     <button class="btn btn-primary" onclick="@UpdateChart">Update Chart </button>
 </div>
-<ChartJsPolarAreaChart ref="polarAreaChart" Config="@polarAreaChartConfig" Width="600" Height="300"/>
+<ChartJsPolarAreaChart ref="polarAreaChart" Config="@polarAreaChartConfig" Width="600" Height="300" />
 
-<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300"/>
+<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300" />
 
 @functions{
 
     public PolarAreaChartConfig polarAreaChartConfig { get; set; }
     ChartJsPolarAreaChart polarAreaChart;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(polarAreaChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             polarAreaChartConfig.Data = JsonConvert.DeserializeObject<PolarAreaData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(polarAreaChartConfig.Data));
         }
     }
-                                 
+
     void OnDataStrChange(string dataStr)
     {
         polarAreaChartConfig.Data = JsonConvert.DeserializeObject<PolarAreaData>(dataStr);
@@ -34,22 +32,19 @@
 
     protected override void OnInit()
     {
-        polarAreaChartConfig = polarAreaChartConfig ?? new PolarAreaChartConfig
-        {
+        polarAreaChartConfig = polarAreaChartConfig ?? new PolarAreaChartConfig {
             CanvasId = "myFirstPolarAreaChart",
-            Options = new PolarAreaOptions
-            {
+            Options = new PolarAreaOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
-                Title = new OptionsTitle {Display = true, Text = "I R TITLE"},
-                Animation = new DoughnutAnimation {AnimateScale = true, AnimateRotate = true},
-                Scale = new PolarAreaScale {Ticks = new Ticks {BeginAtZero = true}},
-                Legend = new ChartJS.Common.Legends.Legend {Position = LegendPosition.TOP.ToString()}
+                Title = new OptionsTitle { Display = true, Text = "I R TITLE" },
+                Animation = new DoughnutAnimation { AnimateScale = true, AnimateRotate = true },
+                Scale = new PolarAreaScale { Ticks = new Ticks { BeginAtZero = true } },
+                Legend = new ChartJS.Common.Legends.Legend { Position = LegendPosition.TOP.ToString() }
             },
-            Data = new PolarAreaData
-            {
-                Labels = new List<string> {"A", "B", "C", "D"},
+            Data = new PolarAreaData {
+                Labels = new List<string> { "A", "B", "C", "D" },
                 Datasets = new List<PolarAreaDataset>
                 {
                     new PolarAreaDataset

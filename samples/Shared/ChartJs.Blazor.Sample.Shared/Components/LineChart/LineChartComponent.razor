@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.ChartJS.Common
+@using ChartJs.Blazor.ChartJS.Common
 @using ChartJs.Blazor.ChartJS.Common.Legends
 @using ChartJs.Blazor.ChartJS.LineChart
 @using Newtonsoft.Json
@@ -7,25 +7,23 @@
 <div class="row">
     <button class="btn btn-primary" onclick="@UpdateChart">Update Chart </button>
 </div>
-<ChartJsLineChart ref="lineChartJs" Config="@lineChartConfig" Width="600" Height="300"/>
+<ChartJsLineChart ref="lineChartJs" Config="@lineChartConfig" Width="600" Height="300" />
 
-<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300"/>
+<DataDisplayComponent OnUpdatedDataStr="@OnDataStrChange" bind-DataStr="@DataStr" Width="600" Height="300" />
 
 @functions{
 
     public LineChartConfig lineChartConfig { get; set; }
     ChartJsLineChart lineChartJs;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(lineChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             lineChartConfig.Data = JsonConvert.DeserializeObject<LineChartData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(lineChartConfig.Data));
         }
     }
-                                
+
     void OnDataStrChange(string dataStr)
     {
         lineChartConfig.Data = JsonConvert.DeserializeObject<LineChartData>(dataStr);
@@ -34,30 +32,24 @@
 
     protected override void OnInit()
     {
-        lineChartConfig = lineChartConfig ?? new LineChartConfig
-        {
+        lineChartConfig = lineChartConfig ?? new LineChartConfig {
             CanvasId = "myFirstLineChart",
-            Options = new LineChartOptions
-            {
+            Options = new LineChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
-                Title = new OptionsTitle {Display = true, Text = "Line Chart"},
-                Legend = new Legend
-                {
+                Title = new OptionsTitle { Display = true, Text = "Line Chart" },
+                Legend = new Legend {
                     Position = LegendPosition.BOTTOM.ToString(),
-                    Labels = new Labels
-                    {
+                    Labels = new Labels {
                         UsePointStyle = true
                     }
                 },
-                Tooltips = new Tooltips
-                {
+                Tooltips = new Tooltips {
                     Mode = Mode.nearest,
                     Intersect = false
                 },
-                Scales = new Scales
-                {
+                Scales = new Scales {
                     xAxes = new List<Axis>
                     {
                         new Axis
@@ -79,15 +71,13 @@
                         }
                     }
                 },
-                Hover = new LineChartOptionsHover
-                {
+                Hover = new LineChartOptionsHover {
                     Intersect = true,
                     Mode = Mode.nearest
                 }
             },
-            Data = new LineChartData
-            {
-                Labels = new List<string> {"Red", "Blue", "Yellow", "Green", "Purple", "Orange"},
+            Data = new LineChartData {
+                Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" },
                 Datasets = new List<LineChartDataset>
                 {
                     new LineChartDataset
@@ -112,8 +102,7 @@
         var rand = new Random();
         lineChartConfig.Data.Labels.Add($"New{DateTime.Now.Second}");
 
-        lineChartConfig.Data.Datasets.ForEach(dataset =>
-        {
+        lineChartConfig.Data.Datasets.ForEach(dataset => {
             var next = rand.Next(dataset.Data.Select(Convert.ToInt32).Max());
             dataset.Data.Add(next);
         });

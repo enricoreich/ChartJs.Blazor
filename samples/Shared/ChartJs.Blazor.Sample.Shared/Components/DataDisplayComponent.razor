@@ -1,4 +1,4 @@
-﻿@using ChartJs.Blazor.Sample.Shared.Extensions
+@using ChartJs.Blazor.Sample.Shared.Extensions
 @using Microsoft.AspNetCore.Components;
 @using Microsoft.JSInterop;
 @inject IJSRuntime iJSRuntime;
@@ -57,11 +57,9 @@
     private string _dataStr;
 
     [Parameter]
-    string DataStr
-    {
+    string DataStr {
         get => _dataStr;
-        set
-        {
+        set {
             _initialData = _initialData ?? value;
 
             _dataStr = value;

@@ -1,6 +1,7 @@
-﻿@using ChartJs.Blazor.ChartJS.BubbleChart
+@using ChartJs.Blazor.ChartJS.BubbleChart
 @using ChartJs.Blazor.ChartJS.Common
 @using Newtonsoft.Json
+
 
 <h2>Bubble Chart</h2>
 <div class="row">
@@ -15,16 +16,14 @@
     public BubbleChartConfig bubbleChartConfig { get; set; }
     ChartJsBubbleChart bubbleChartJs;
 
-    string DataStr
-    {
+    string DataStr {
         get => JsonConvert.SerializeObject(bubbleChartConfig.Data, Formatting.Indented);
-        set
-        {
+        set {
             bubbleChartConfig.Data = JsonConvert.DeserializeObject<BubbleChartData>(value);
             Console.WriteLine(JsonConvert.SerializeObject(bubbleChartConfig.Data));
         }
     }
-                                             
+
     void OnDataStrChange(string dataStr)
     {
         bubbleChartConfig.Data = JsonConvert.DeserializeObject<BubbleChartData>(dataStr);
@@ -33,19 +32,16 @@
 
     protected override void OnInit()
     {
-        bubbleChartConfig = bubbleChartConfig ?? new BubbleChartConfig
-        {
+        bubbleChartConfig = bubbleChartConfig ?? new BubbleChartConfig {
             CanvasId = "myFirstBubbleChart",
-            Options = new BubbleChartOptions
-            {
+            Options = new BubbleChartOptions {
                 Text = "Sample chart from Blazor",
                 Display = true,
                 Responsive = true,
                 Title = new OptionsTitle { Display = true, Text = "I R TITLE" },
                 Tooltips = new Tooltips { Mode = Mode.point },
             },
-            Data = new BubbleChartData
-            {
+            Data = new BubbleChartData {
                 Animation = new Animation { Duration = 0 },
                 Datasets = new List<BubbleChartDataset>
             {
@@ -54,7 +50,7 @@
                         BackgroundColor = ColorUtil.RandomColorString(),
                         Label = "1'st dataset",
                         Data = new List<BubbleData>
-                    {
+    {
                             new BubbleData {x = 1, y = 1, r = 5},
                             new BubbleData {x = 2, y = 1.9, r = 5},
                             new BubbleData {x = 3, y = 3, r = 6}
@@ -67,7 +63,7 @@
                         BackgroundColor = ColorUtil.RandomColorString(),
                         Label = "2'd dataset",
                         Data = new List<BubbleData>
-                    {
+    {
                             new BubbleData {x = 1, y = 3, r = 9},
                             new BubbleData {x = 2, y = 2.1, r = 7},
                             new BubbleData {x = 3, y = 1, r = 3}
@@ -85,13 +81,12 @@
         };
     }
 
-    public void UpdateChart()
+    void UpdateChart()
     {
         var rand = new Random();
 
         bubbleChartConfig.Data.Datasets.ForEach(dataset =>
-            dataset.Data.Add(new BubbleData
-            {
+            dataset.Data.Add(new BubbleData {
                 x = rand.NextDouble() * 5,
                 y = rand.NextDouble() * 5,
                 r = rand.NextDouble() * 8
